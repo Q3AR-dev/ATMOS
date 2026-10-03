@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATMOS — Погода</title>
+  <meta name="description" content="ATMOS — погода как типографический постер. Живой необруталистский интерфейс." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-weather="clear">
+
+  <div class="app">
+    <!-- Шапка -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-name">ATMOS</span>
+      </div>
+      <div class="topbar-actions">
+        <div class="toggle" role="group" aria-label="Единицы измерения">
+          <button class="toggle-btn unit-btn is-active" data-unit="metric">°C</button>
+          <button class="toggle-btn unit-btn" data-unit="imperial">°F</button>
+        </div>
+        <div class="toggle" role="group" aria-label="Язык">
+          <button class="toggle-btn lang-btn is-active" data-lang="ru">RU</button>
+          <button class="toggle-btn lang-btn" data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Поиск -->
+    <div class="search">
+      <div class="search-box">
+        <input id="searchInput" type="text" class="search-input" autocomplete="off" spellcheck="false" placeholder="Поиск города..." data-i18n-placeholder="searchPlaceholder" />
+        <button id="geoBtn" class="geo-btn" title="Моя геолокация" data-i18n-title="geoTitle">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-6 6c0 4 6 12 6 12s6-8 6-12a6 6 0 0 0-6-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.2" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <div id="suggestions" class="suggestions"></div>
+      </div>
+    </div>
+
+    <!-- Ошибка -->
+    <div id="errorCard" class="error hidden">
+      <span class="error-mark">!</span>
+      <p id="errorText" class="error-text"></p>
+    </div>
+
+    <!-- Загрузка -->
+    <div id="loader" class="loader hidden"><span class="loader-ring"></span></div>
+
+    <!-- Контент -->
+    <main id="mainContent" class="content hidden">
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-glyph" id="heroGlyph"></div>
+
+        <div class="hero-city-wrap">
+          <h1 id="cityName" class="hero-city">—</h1>
+          <p id="cityMeta" class="hero-meta">—</p>
+        </div>
+
+        <div class="hero-temp-wrap">
+          <span id="temp" class="hero-temp">--</span><span class="hero-temp-unit">°</span>
+        </div>
+
+        <p id="desc" class="hero-desc">—</p>
+        <p id="feels" class="hero-feels">—</p>
+
+        <div class="hero-ghost" id="heroGhost" aria-hidden="true">CLEAR</div>
+      </section>
+
+      <!-- Метрики -->
+      <section class="metrics" id="metrics">
+        <div class="metric"><span class="metric-label" data-i18n="feelsLike">Ощущается</span><b class="metric-value" id="mFeels">--</b></div>
+        <div class="metric"><span class="metric-label" data-i18n="humidity">Влажность</span><b class="metric-value" id="mHumidity">--</b></div>
+        <div class="metric"><span class="metric-label" data-i18n="wind">Ветер</span><b class="metric-value" id="mWind">--</b></div>
+        <div class="metric"><span class="metric-label" data-i18n="pressure">Давление</span><b class="metric-value" id="mPressure">--</b></div>
+        <div class="metric"><span class="metric-label" data-i18n="visibility">Видимость</span><b class="metric-value" id="mVisibility">--</b></div>
+        <div class="metric"><span class="metric-label" data-i18n="clouds">Облачность</span><b class="metric-value" id="mClouds">--</b></div>
+        <div class="metric"><span class="metric-label" data-i18n="sunrise">Восход</span><b class="metric-value" id="mSunrise">--</b></div>
+        <div class="metric"><span class="metric-label" data-i18n="sunset">Закат</span><b class="metric-value" id="mSunset">--</b></div>
+      </section>
+
+      <!-- Почасовой — кривая -->
+      <section class="section">
+        <h2 class="section-title" data-i18n="hourly">Почасовой прогноз</h2>
+        <div class="curve-wrap" id="hourlyWrap"></div>
+      </section>
+
+      <!-- 5 дней -->
+      <section class="section">
+        <h2 class="section-title" data-i18n="daily">5 дней</h2>
+        <div class="daily" id="daily"></div>
+      </section>
+    </main>
+
+    <!-- Бегущая строка -->
+    <footer class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marqueeTrack">
+        <span>ATMOS · OPENWEATHERMAP · ATMOS · OPENWEATHERMAP · ATMOS · OPENWEATHERMAP · ATMOS · OPENWEATHERMAP ·&nbsp;</span>
+        <span>ATMOS · OPENWEATHERMAP · ATMOS · OPENWEATHERMAP · ATMOS · OPENWEATHERMAP · ATMOS · OPENWEATHERMAP ·&nbsp;</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
